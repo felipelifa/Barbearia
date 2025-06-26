@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Dono</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+</head>
+<body>
+  <h2>Painel do Dono</h2>
+  <div>
+    <h3>Cadastrar Barbeiro</h3>
+    <input type="text" id="nomeBarbeiro" placeholder="Nome do Barbeiro">
+    <button onclick="cadastrarBarbeiro()">Cadastrar</button>
+  </div>
+  <div>
+    <h3>Lista de Barbeiros</h3>
+    <ul id="listaBarbeiros"></ul>
+  </div>
+  <script>
+    const tokenBarbearia = "BARBEARIA123"; // troque conforme necessário
+    const db = firebase.firestore();
+
+    function cadastrarBarbeiro() {
+      const nome = document.getElementById("nomeBarbeiro").value;
+      if (!nome) return alert("Preencha o nome do barbeiro");
+
+      db.collection("barbearias").doc(tokenBarbearia).collection("barbeiros").add({ nome })
+        .then(() => {
+          alert("Barbeiro cadastrado!");
+          listarBarbeiros();
+        })
+        .catch(err => alert("Erro: " + err));
+    }
+
+    function listarBarbeiros() {
+      const lista = document.getElementById("listaBarbeiros");
+      lista.innerHTML = "";
+      db.collection("barbearias").doc(tokenBarbearia).collection("barbeiros").get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            const li = document.createElement("li");
+            li.textContent = doc.data().nome;
+            lista.appendChild(li);
+          });
+        });
+    }
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) window.location.href = "login.html";
+      else listarBarbeiros();
+    });
+  </script>
+</body>
+</html>
