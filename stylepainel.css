@@ -1,0 +1,195 @@
+/* === RESET E BASE === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #1f1f1f, #2c2c2c);
+  color: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* === CONTAINER PRINCIPAL === */
+.auth-container {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* === FORMULÁRIO === */
+.form-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* === BOTÃO === */
+.submit-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(to right, #d4145a, #fbb03b);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(to right, #fbb03b, #d4145a);
+}
+
+/* === AGENDAMENTOS === */
+#painel {
+  margin-top: 2rem;
+}
+
+/* Lista de Agendamentos com visual mais legível */
+#agendamentos-lista {
+  margin-top: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.07);
+  padding: 1rem;
+  border-radius: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+#agendamentos-lista ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#agendamentos-lista li {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 1.1rem;
+}
+.btn-whatsapp {
+  background-color: #25D366;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebd5a;
+}
+
+#agendamentos-lista li:last-child {
+  border-bottom: none;
+}
+
+/* Nome em destaque */
+#agendamentos-lista li strong {
+  font-size: 1.3rem;
+  color: #ffffff;
+}
+
+/* Barbeiro e horário */
+#agendamentos-lista li span {
+  font-size: 1.1rem;
+  color: #fcd34d;
+}
+
+/* Data */
+#agendamentos-lista small {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+}
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card-agendamento {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease;
+}
+
+.card-agendamento:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-agendamento p {
+  font-size: 16px;
+  color: #1e293b;
+  margin: 12px 0 6px;
+  line-height: 1.4;
+}
+
+.card-agendamento .data-criacao {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 10px;
+}
+.btn-excluir {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.btn-excluir:hover {
+  background: #dc2626;
+}
+
+
+small {
+  color: #cccccc;
+  font-size: 0.8r
+}

@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Dono</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="firebase-config.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Painel do Dono</title>
+  <link rel="stylesheet" href="stylepainel.css">
 </head>
 <body>
-  <h2>Login do Dono</h2>
-  <form id="loginForm">
-    <input type="email" id="email" placeholder="Email" required><br>
-    <input type="password" id="password" placeholder="Senha" required><br>
-    <button type="submit">Entrar</button>
-  </form>
+  <div class="auth-container">
+    <div class="form-wrapper">
+      <div class="form-side">
+        <div class="form-header">
+          <h2 class="form-title">Login do Dono</h2>
+        </div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="email" id="email" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Senha</label>
+            <input type="password" id="senha" class="form-input" required />
+          </div>
+          <button type="submit" class="submit-btn">Entrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-  <script>
-    const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(() => {
-          window.location.href = "admin.html";
-        })
-        .catch(error => alert("Erro: " + error.message));
-    });
-  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>

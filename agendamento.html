@@ -1,122 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Agenda da Barbearia</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    select, input, button { margin: 10px 0; padding: 10px; }
-    .horarios { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-    .horario {
-      padding: 10px 15px;
-      background-color: #e0ffe0;
-      border: 1px solid #333;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .horario.agendado {
-      background-color: #ffb3b3;
-      color: #444;
-      pointer-events: none;
-    }
-    #status {
-      margin-top: 20px;
-      font-weight: bold;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agendamento | Barbearia Estilo</title>
+  <link rel="stylesheet" href="styleag.css" />
 </head>
 <body>
 
-  <h1>Agendamento</h1>
+  <section id="formulario-agendamento">
+    <h2>Agende seu horário</h2> 
 
-  <label for="cliente">Seu nome:</label><br>
-  <input type="text" id="cliente" placeholder="Ex: Felipe"><br>
+    <form id="formAgendamento">
+      <label for="nomeCliente">Seu nome:</label>
+      <input type="text" id="nomeCliente" required />
+<label for="telefoneCliente">Número de WhatsApp:</label>
+<input type="tel" id="telefoneCliente" name="telefoneCliente" placeholder="(XX) XXXXX-XXXX" required />
 
-  <label for="barbeiro">Escolha o barbeiro:</label><br>
-  <select id="barbeiro">
-    <option value="Jean">Jean</option>
-    <option value="Kauã">Kauã</option>
-    <option value="Lucas">Lucas</option>
-  </select>
+      <label for="selecionarBarbeiro">Barbeiro:</label>
+      <select id="selecionarBarbeiro" required>
+        <option value="">Selecione</option>
+        <option value="João">João</option>
+        <option value="Lucas">Lucas</option>
+      </select>
 
-  <h3>Horários disponíveis</h3>
-  <div class="horarios" id="listaHorarios"></div>
+      <div id="opcoesHorarios" class="horarios-container"></div>
 
-  <p id="status"></p>
+      <button type="submit">Confirmar Agendamento</button>
+    </form>
+  </section>
 
-  <script>
-    const horariosDisponiveis = [
-      "09:00", "09:30", "10:00", "10:30",
-      "11:00", "11:30", "13:00", "13:30",
-      "14:00", "14:30", "15:00", "15:30",
-      "16:00", "16:30", "17:00", "17:30"
-    ];
+  <!-- Firebase + JavaScript -->
+ <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+<script src="firebase-init.js"></script>
+<script src="agendamento.js"></script>
 
-    const agenda = {
-      Jean: [],
-      "Kauã": [],
-      Lucas: []
-    };
-
-    const lista = document.getElementById("listaHorarios");
-    const status = document.getElementById("status");
-
-    function renderHorarios() {
-      lista.innerHTML = "";
-      const barbeiro = document.getElementById("barbeiro").value;
-
-      horariosDisponiveis.forEach(hora => {
-        const botao = document.createElement("div");
-        botao.className = "horario";
-        botao.textContent = hora;
-
-        if (agenda[barbeiro].some(item => item.horario === hora)) {
-          botao.classList.add("agendado");
-        } else {
-          botao.onclick = () => agendarHorario(hora, barbeiro);
-        }
-
-        lista.appendChild(botao);
-      });
-    }
-
-    function agendarHorario(horario, barbeiro) {
-      const nome = document.getElementById("cliente").value.trim();
-      if (!nome) {
-        alert("Por favor, digite seu nome.");
-        return;
-      }
-
-      // Verifica se já está agendado
-      if (agenda[barbeiro].some(item => item.horario === horario)) {
-        alert("Esse horário já está agendado.");
-        return;
-      }
-
-      agenda[barbeiro].push({ nome, horario });
-      renderHorarios();
-
-      status.textContent = `✅ ${nome}, você agendou com ${barbeiro} às ${horario}.`;
-
-      // Simula alerta na hora marcada
-      const [h, m] = horario.split(":");
-      const agora = new Date();
-      const horarioAlvo = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate(), h, m);
-
-      const timer = setInterval(() => {
-        const agora = new Date();
-        if (agora >= horarioAlvo) {
-          alert(`✂️ Alerta: ${nome} tem corte agendado com ${barbeiro} agora!`);
-          clearInterval(timer);
-        }
-      }, 1000);
-    }
-
-    // Atualiza lista ao trocar barbeiro
-    document.getElementById("barbeiro").addEventListener("change", renderHorarios);
-
-    renderHorarios();
-  </script>
 
 </body>
 </html>
