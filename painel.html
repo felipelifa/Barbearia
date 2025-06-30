@@ -3,38 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Painel do Dono</title>
-  <link rel="stylesheet" href="stylepainel.css" />
+  <title>Agendamentos - Painel da Barbearia</title>
+  <link rel="stylesheet" href="stylepainel.css">
 </head>
 <body>
+  <h1>Agendamentos</h1>
 
-  <div class="auth-container">
-    <div class="form-wrapper">
-      <div class="form-side">
-
-        <!-- FORMULÁRIO DE TOKEN -->
-        <h2 class="form-title">Acesso Restrito</h2>
-        <form id="tokenForm">
-          <label class="form-label">Token da Barbearia:</label>
-          <input type="text" id="tokenInput" class="form-input" placeholder="Digite seu token" required />
-          <button type="submit" class="submit-btn">Entrar</button>
-        </form>
-
-        <!-- PAINEL DE AGENDAMENTOS -->
-        <div id="painel" style="display: none;">
-          <h2 class="form-title">Agendamentos</h2>
-          <div id="agendamentos-lista">Carregando...</div>
-          <button onclick="location.reload()" class="submit-btn">Sair</button>
-        </div>
-
-      </div>
-    </div>
+  <div id="agendamentos-lista">
+    <p>Carregando agendamentos...</p>
   </div>
 
-  <!-- Firebase + JS -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase Init -->
   <script src="firebase-init.js"></script>
+
+  <!-- Script principal -->
   <script src="painel.js"></script>
+  <script>
+  window.onload = carregarAgendamentos;
+</script>
 </body>
 </html>

@@ -1,36 +1,9 @@
-// ✅ TOKEN FIXO para cada barbearia (muda conforme o cliente)
 const TOKEN_DA_BARBEARIA = "bar1234";
-
-// === HORÁRIOS DISPONÍVEIS ===
 const horariosDisponiveis = ["09:00", "10:00", "11:00"];
 const containerHorarios = document.getElementById("opcoesHorarios");
 let horarioSelecionado = null;
 
-// === FUNÇÃO PARA CARREGAR HORÁRIOS OCUPADOS ===
-async function carregarHorariosOcupados(barbeiro) {
-  const snapshot = await db.collection("barbearias")
-    .doc(TOKEN_DA_BARBEARIA)
-    .collection("agendamentos")
-    .where("barbeiro", "==", barbeiro)
-    .get();
-
-  const horariosOcupados = snapshot.docs.map(doc => doc.data().horario);
-
-  document.querySelectorAll(".horario-btn").forEach(btn => {
-    const hora = btn.dataset.horario;
-    if (horariosOcupados.includes(hora)) {
-      btn.classList.add("ocupado");
-      btn.disabled = true;
-    } else {
-      btn.classList.remove("ocupado");
-      btn.disabled = false;
-    }
-  });
-}
-
-// === CRIAÇÃO DOS BOTÕES DE HORÁRIO ===
 document.addEventListener("DOMContentLoaded", () => {
-  // Primeiro, busca os horários já agendados
   db.collection("barbearias")
     .doc(TOKEN_DA_BARBEARIA)
     .collection("agendamentos")
@@ -38,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(snapshot => {
       const horariosAgendados = snapshot.docs.map(doc => doc.data().horario);
 
-      // Agora cria os botões de horário
       horariosDisponiveis.forEach(hora => {
         const btn = document.createElement("button");
         btn.type = "button";
@@ -46,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.className = "horario-btn";
         btn.dataset.horario = hora;
 
-        // Verifica se o horário está agendado
         if (horariosAgendados.includes(hora)) {
           btn.classList.add("ocupado");
           btn.disabled = true;
@@ -60,22 +31,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
         containerHorarios.appendChild(btn);
       });
-    })
-    .catch(error => {
-      console.error("Erro ao buscar horários agendados:", error);
     });
 });
 
-
-// === FORMULÁRIO DE AGENDAMENTO ===
 const form = document.getElementById("formAgendamento");
+// Mapeamento dos serviços com seus valores
+const servicosComValor = {
+  "Corte Tradicional": "30",
+  "Barba Completa": "25",
+  "Pacote Especial": "50"
+};
+
+// Atualiza o valor quando o serviço é selecionado
+const selectServico = document.getElementById("servico");
+const campoValor = document.getElementById("valor");
+
+selectServico.addEventListener("change", () => {
+  const servicoSelecionado = selectServico.value;
+  campoValor.value = servicosComValor[servicoSelecionado] || "";
+});
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const nomeCliente = document.getElementById("nomeCliente").value.trim();
-  const telefoneCliente = document.getElementById("telefoneCliente").value.trim(); // ✅ Coloque essa linha aqui
+  const telefoneCliente = document.getElementById("telefoneCliente").value.trim();
   const barbeiroEscolhido = document.getElementById("selecionarBarbeiro").value;
+  const servico = document.getElementById("servico")?.value?.trim() || "";
+  const valor = document.getElementById("valor")?.value?.trim() || "";
 
   if (!nomeCliente || !telefoneCliente || !barbeiroEscolhido || !horarioSelecionado) {
     alert("Por favor, preencha todos os campos e selecione um horário.");
@@ -84,9 +67,11 @@ form.addEventListener("submit", function (event) {
 
   const agendamento = {
     nome: nomeCliente,
-    telefone: telefoneCliente, // ✅ Isso será salvo no banco
+    telefone: telefoneCliente,
     barbeiro: barbeiroEscolhido,
     horario: horarioSelecionado,
+    servico,
+    valor,
     dataAgendada: new Date().toLocaleDateString("pt-BR"),
     criadoEm: firebase.firestore.FieldValue.serverTimestamp()
   };

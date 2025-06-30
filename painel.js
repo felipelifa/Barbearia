@@ -36,31 +36,36 @@ function carregarAgendamentos() {
       let html = "";
 
       const hoje = new Date();
-      hoje.setHours(0, 0, 0, 0); // Zera horas para comparar apenas a data
+      hoje.setHours(0, 0, 0, 0);
 
       snapshot.forEach(doc => {
         const ag = doc.data();
         const id = doc.id;
 
         if (ag.criadoEm && ag.criadoEm.toDate() < hoje) {
-          // 🔥 Se o agendamento for de outro dia, exclui automaticamente
           db.collection("barbearias")
             .doc(TOKEN_DA_BARBEARIA)
             .collection("agendamentos")
             .doc(id)
             .delete();
         } else {
-          // ✅ Agendamentos do dia atual são exibidos
+          const dataFormatada = ag.criadoEm?.toDate().toLocaleDateString() || "Sem data";
+
           html += `
-            <div class="card-agendamento">
-              <p><strong>🧍 Nome do cliente:</strong><br> ${ag.nome}</p>
-              <p><strong>✂️ Barbeiro escolhido:</strong><br> ${ag.barbeiro}</p>
-              <p><strong>🕒 Horário marcado:</strong><br> ${ag.horario}</p>
-              <p class="data-criacao">📅 ${ag.criadoEm?.toDate().toLocaleString() || 'Sem data'}</p>
-              <a href="https://wa.me/55${ag.telefone?.replace(/\D/g, '')}?text=Olá!%20Confirmando%20seu%20agendamento%20para%20hoje%20às%20${ag.horario}%20com%20o%20barbeiro%20${ag.barbeiro}" target="_blank">
-                <button class="btn-whatsapp">📩 Enviar WhatsApp</button>
-              </a>
-              <button class="btn-excluir" onclick="excluirAgendamento('${id}')">🗑️ Excluir</button>
+            <div class="agendamento-card">
+              <div class="info-linha"><span class="label">Cliente:</span><span class="valor">${ag.nome}</span></div>
+              <div class="info-linha"><span class="label">Barbeiro:</span><span class="valor">${ag.barbeiro}</span></div>
+              <div class="info-linha"><span class="label">Horário:</span><span class="valor">${ag.horario}</span></div>
+              <div class="info-linha"><span class="label">Serviço:</span><span class="valor">${ag.servico || "—"}</span></div>
+              <div class="info-linha"><span class="label">Valor:</span><span class="valor">R$ ${ag.valor || "0,00"}</span></div>
+              <div class="info-linha"><span class="label">Contato:</span><span class="valor">${ag.telefone || "—"}</span></div>
+              <div class="info-linha"><span class="label">Criado em:</span><span class="valor">${dataFormatada}</span></div>
+              <div class="botoes-card">
+                <a href="https://wa.me/55${ag.telefone?.replace(/\D/g, '')}?text=Olá!%20Confirmando%20seu%20agendamento%20para%20hoje%20às%20${ag.horario}%20com%20o%20barbeiro%20${ag.barbeiro}" target="_blank">
+                  <button class="btn-whatsapp">📩 WhatsApp</button>
+                </a>
+                <button class="btn-excluir" onclick="excluirAgendamento('${id}')">🗑️ Excluir</button>
+              </div>
             </div>
           `;
         }
@@ -69,6 +74,7 @@ function carregarAgendamentos() {
       lista.innerHTML = html || "<p>Nenhum agendamento para hoje.</p>";
     });
 }
+
 
 function excluirAgendamento(id) {
   if (confirm("Tem certeza que deseja excluir este agendamento?")) {

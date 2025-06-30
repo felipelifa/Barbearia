@@ -5,8 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Barbearia Estilo</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .painel-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: 0.3s ease;
+      text-decoration: none;
+    }
+    .painel-btn:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Botão fixo para acessar o painel do dono -->
+  <a href="painel.html" class="painel-btn">🔒 Painel do Dono</a>
 
   <!-- Banner -->
   <section id="banner">

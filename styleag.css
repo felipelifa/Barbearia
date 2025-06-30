@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  background: linear-gradient(135deg, #070707 0%, #3a3a3a 50%, #8b868b 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -26,9 +26,9 @@ body {
   text-align: center;
   font-size: 28px;
   font-weight: 700;
-  color: #1e293b;
+  color: #000000;
   margin-bottom: 24px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #000000, #656466);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -38,13 +38,13 @@ body {
   display: block;
   color: #334155;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 6px;
 }
 
 #formAgendamento input,
 #formAgendamento select {
-  width: 100%;
+  width: 80%;
   padding: 14px 18px;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
@@ -56,7 +56,7 @@ body {
 
 #formAgendamento input:focus,
 #formAgendamento select:focus {
-  border-color: #6366f1;
+  border-color: #000000;
   background: #fff;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
@@ -71,7 +71,7 @@ body {
 }
 
 .horario-btn {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #4c4c4d, #000000);
   color: white;
   border: none;
   padding: 12px 20px;
@@ -94,7 +94,7 @@ body {
 
 button[type="submit"] {
   width: 100%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #27282c, #1e1d1f);
   color: white;
   border: none;
   padding: 16px;
