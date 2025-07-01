@@ -72,7 +72,7 @@ body {
 
 .horario-btn {
   background: linear-gradient(135deg, #4c4c4d, #000000);
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 12px 20px;
   border-radius: 8px;
@@ -128,16 +128,145 @@ button[type="submit"]:hover {
 }
 .horario-btn.ocupado {
   background-color: #ffcccc !important; /* vermelho claro */
-  color: #555;
+  color: #000000;
   cursor: not-allowed;
   text-decoration: line-through;
   opacity: 0.7;
 }
 
 .horario-btn.selecionado {
-  background: #d946ef;
-  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #d946ef;
+  background: #19091b;
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #000000;
   font-weight: bold;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0f172a;
+  color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+#formulario-agendamento {
+  background: #dbe0e7;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+#formulario-agendamento h2 {
+  text-align: center;
+  color: #38bdf8;
+  margin-bottom: 24px;
+}
+
+form label {
+  display: block;
+  margin: 16px 0 6px;
+  font-weight: 600;
+  color: #0c0c0c;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #334155;
+  color: #000000;
+  font-size: 15px;
+}
+
+form input::placeholder {
+  color: #94a3b8;
+}
+
+form button[type="submit"] {
+  width: 100%;
+  background: #38bdf8;
+  color: #0f172a;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button[type="submit"]:hover {
+  background: #0ea5e9;
+}
+
+/* Dias da Semana */
+.dias-semana-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.dia-btn {
+  flex: 1 1 calc(33.33% - 10px);
+  background: #475569;
+  color: #f1f5f9;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dia-btn:hover {
+  background: #64748b;
+}
+
+.dia-btn.selecionado {
+  background-color: #38bdf8;
+  color: #0f172a;
+}
+
+/* Horários */
+.horarios-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.horario-btn {
+  flex: 1 1 calc(33.33% - 10px);
+  background: #475569;
+  color: #f1f5f9;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.horario-btn:hover {
+  background: #64748b;
+}
+
+.horario-btn.selecionado {
+  background-color: #22c55e;
+  color: #616879;
+}
+
+.horario-btn.ocupado {
+  background-color: #ef4444;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 @keyframes fadeInUp {

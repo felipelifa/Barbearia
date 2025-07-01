@@ -7,15 +7,14 @@
   <link rel="stylesheet" href="styleag.css" />
 </head>
 <body>
-
   <section id="formulario-agendamento">
     <h2>Agende seu horário</h2> 
-
     <form id="formAgendamento">
       <label for="nomeCliente">Seu nome:</label>
       <input type="text" id="nomeCliente" required />
-<label for="telefoneCliente">Número de WhatsApp:</label>
-<input type="tel" id="telefoneCliente" name="telefoneCliente" placeholder="(XX) XXXXX-XXXX" required />
+
+      <label for="telefoneCliente">WhatsApp:</label>
+      <input type="tel" id="telefoneCliente" placeholder="(XX) XXXXX-XXXX" required />
 
       <label for="selecionarBarbeiro">Barbeiro:</label>
       <select id="selecionarBarbeiro" required>
@@ -23,29 +22,34 @@
         <option value="João">João</option>
         <option value="Lucas">Lucas</option>
       </select>
-    <label for="servico">Serviço desejado:</label>
-<select id="servico" required>
-  <option value="">Selecione um serviço</option>
-  <option value="Corte Tradicional">Corte Tradicional</option>
-  <option value="Barba Completa">Barba Completa</option>
-  <option value="Pacote Especial">Pacote Especial</option>
-</select>
 
-<label for="valor">Valor (R$):</label>
-<input type="text" id="valor" readonly placeholder="Escolha um serviço" />
+      <label for="servico">Serviço desejado:</label>
+      <select id="servico" required>
+        <option value="">Selecione um serviço</option>
+        <option value="Corte Tradicional">Corte Tradicional</option>
+        <option value="Barba Completa">Barba Completa</option>
+        <option value="Pacote Especial">Pacote Especial</option>
+      </select>
 
+      <label for="valor">Valor (R$):</label>
+      <input type="text" id="valor" readonly placeholder="Escolha um serviço" />
+
+      <label>Dias disponíveis:</label>
+      <div id="dias-semana" class="dias-semana-container"></div>
+
+      <label>Horários disponíveis:</label>
       <div id="opcoesHorarios" class="horarios-container"></div>
 
       <button type="submit">Confirmar Agendamento</button>
     </form>
   </section>
+<div class="voltar-container">
+  <button onclick="window.location.href='index.html'" class="btn-voltar">← Voltar para a Página Principal</button>
+</div>
 
-  <!-- Firebase + JavaScript -->
- <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-<script src="firebase-init.js"></script>
-<script src="agendamento.js"></script>
-
-
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="agendamento.js"></script>
 </body>
 </html>

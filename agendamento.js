@@ -1,78 +1,99 @@
 const TOKEN_DA_BARBEARIA = "bar1234";
 const horariosDisponiveis = ["09:00", "10:00", "11:00"];
-const containerHorarios = document.getElementById("opcoesHorarios");
-let horarioSelecionado = null;
-
-document.addEventListener("DOMContentLoaded", () => {
-  db.collection("barbearias")
-    .doc(TOKEN_DA_BARBEARIA)
-    .collection("agendamentos")
-    .get()
-    .then(snapshot => {
-      const horariosAgendados = snapshot.docs.map(doc => doc.data().horario);
-
-      horariosDisponiveis.forEach(hora => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.textContent = hora;
-        btn.className = "horario-btn";
-        btn.dataset.horario = hora;
-
-        if (horariosAgendados.includes(hora)) {
-          btn.classList.add("ocupado");
-          btn.disabled = true;
-        } else {
-          btn.addEventListener("click", () => {
-            horarioSelecionado = hora;
-            document.querySelectorAll(".horario-btn").forEach(b => b.classList.remove("selecionado"));
-            btn.classList.add("selecionado");
-          });
-        }
-
-        containerHorarios.appendChild(btn);
-      });
-    });
-});
-
+const diasSemana = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
+const diasContainer = document.getElementById("dias-semana");
+const horariosContainer = document.getElementById("opcoesHorarios");
 const form = document.getElementById("formAgendamento");
-// Mapeamento dos serviços com seus valores
+
+let horarioSelecionado = null;
+let diaSelecionado = null;
+
 const servicosComValor = {
   "Corte Tradicional": "30",
   "Barba Completa": "25",
   "Pacote Especial": "50"
 };
 
-// Atualiza o valor quando o serviço é selecionado
-const selectServico = document.getElementById("servico");
-const campoValor = document.getElementById("valor");
-
-selectServico.addEventListener("change", () => {
-  const servicoSelecionado = selectServico.value;
-  campoValor.value = servicosComValor[servicoSelecionado] || "";
+document.getElementById("servico").addEventListener("change", () => {
+  const servico = document.getElementById("servico").value;
+  document.getElementById("valor").value = servicosComValor[servico] || "";
 });
 
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
+// Cria botões para os dias
+diasSemana.forEach((dia, index) => {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = dia;
+  btn.className = "dia-btn";
+  btn.dataset.dia = index + 1;
 
-  const nomeCliente = document.getElementById("nomeCliente").value.trim();
-  const telefoneCliente = document.getElementById("telefoneCliente").value.trim();
-  const barbeiroEscolhido = document.getElementById("selecionarBarbeiro").value;
-  const servico = document.getElementById("servico")?.value?.trim() || "";
-  const valor = document.getElementById("valor")?.value?.trim() || "";
+  btn.addEventListener("click", () => {
+    diaSelecionado = index + 1;
+    document.querySelectorAll(".dia-btn").forEach(b => b.classList.remove("selecionado"));
+    btn.classList.add("selecionado");
+    mostrarHorariosParaDia(diaSelecionado);
+  });
 
-  if (!nomeCliente || !telefoneCliente || !barbeiroEscolhido || !horarioSelecionado) {
-    alert("Por favor, preencha todos os campos e selecione um horário.");
+  diasContainer.appendChild(btn);
+});
+
+function mostrarHorariosParaDia(diaNumero) {
+  horariosContainer.innerHTML = "<p>Carregando horários...</p>";
+
+  db.collection("barbearias")
+    .doc(TOKEN_DA_BARBEARIA)
+    .collection("agendamentos")
+    .get()
+    .then(snapshot => {
+      const agendamentos = snapshot.docs.map(doc => doc.data());
+      horariosContainer.innerHTML = "";
+      horarioSelecionado = null;
+
+      horariosDisponiveis.forEach(horario => {
+        const ocupado = agendamentos.some(ag =>
+          ag.diaSemana === diaNumero && ag.horario === horario
+        );
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = horario;
+        btn.className = "horario-btn";
+        btn.disabled = ocupado;
+        if (ocupado) btn.classList.add("ocupado");
+
+        btn.addEventListener("click", () => {
+          horarioSelecionado = horario;
+          document.querySelectorAll(".horario-btn").forEach(b => b.classList.remove("selecionado"));
+          btn.classList.add("selecionado");
+        });
+
+        horariosContainer.appendChild(btn);
+      });
+    });
+}
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const nome = document.getElementById("nomeCliente").value.trim();
+  const telefone = document.getElementById("telefoneCliente").value.trim();
+  const barbeiro = document.getElementById("selecionarBarbeiro").value;
+  const servico = document.getElementById("servico").value;
+  const valor = document.getElementById("valor").value;
+
+  if (!nome || !telefone || !barbeiro || !servico || !valor || !horarioSelecionado || !diaSelecionado) {
+    alert("Preencha todos os campos e selecione um horário e um dia.");
     return;
   }
 
   const agendamento = {
-    nome: nomeCliente,
-    telefone: telefoneCliente,
-    barbeiro: barbeiroEscolhido,
-    horario: horarioSelecionado,
+    nome,
+    telefone,
+    barbeiro,
     servico,
     valor,
-    dataAgendada: new Date().toLocaleDateString("pt-BR"),
+    horario: horarioSelecionado,
+    diaSemana: diaSelecionado,
     criadoEm: firebase.firestore.FieldValue.serverTimestamp()
   };
 
@@ -81,13 +102,15 @@ form.addEventListener("submit", function (event) {
     .collection("agendamentos")
     .add(agendamento)
     .then(() => {
-      alert("Agendamento realizado com sucesso!");
+      alert("Agendamento realizado!");
       form.reset();
+      diaSelecionado = null;
       horarioSelecionado = null;
-      document.querySelectorAll(".horario-btn").forEach(btn => btn.classList.remove("selecionado"));
+      document.querySelectorAll(".dia-btn").forEach(b => b.classList.remove("selecionado"));
+      horariosContainer.innerHTML = "";
     })
-    .catch((error) => {
-      console.error("Erro ao salvar agendamento: ", error);
-      alert("Erro ao agendar. Tente novamente.");
+    .catch(error => {
+      console.error("Erro:", error);
+      alert("Erro ao salvar agendamento.");
     });
 });

@@ -3,27 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Agendamentos - Painel da Barbearia</title>
+  <title>Painel da Barbearia</title>
   <link rel="stylesheet" href="stylepainel.css">
 </head>
 <body>
-  <h1>Agendamentos</h1>
 
-  <div id="agendamentos-lista">
-    <p>Carregando agendamentos...</p>
+  <!-- Tela de login -->
+  <div class="login-container" id="loginContainer">
+    <h2>Acesso ao Painel</h2>
+    <input type="text" id="tokenInput" placeholder="Digite seu token de acesso" />
+    <button onclick="verificarToken()">Entrar</button>
   </div>
 
-  <!-- Firebase -->
+  <!-- Painel oculto por padrão -->
+  <div id="painelContainer" style="display: none;">
+    <h1>Painel de Agendamentos</h1>
+    <div id="agendamentosLista">Carregando agendamentos...</div>
+  </div>
+<div class="voltar-container">
+  <button onclick="window.location.href='index.html'" class="btn-voltar">← Voltar para a Página Principal</button>
+</div>
+
+  <!-- Firebase + Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-
-  <!-- Firebase Init -->
   <script src="firebase-init.js"></script>
-
-  <!-- Script principal -->
   <script src="painel.js"></script>
-  <script>
-  window.onload = carregarAgendamentos;
-</script>
+
 </body>
 </html>
